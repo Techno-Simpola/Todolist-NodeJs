@@ -133,6 +133,17 @@ app.get("/:customListName",function(req,res){
 
 });
 
+
+function ignoreFavicon(req, res, next) {
+  if (req.originalUrl.includes('favicon.ico')) {
+    res.status(204).end()
+  }
+  next();
+}
+
+app.use(ignoreFavicon);
+
+
 app.get("/about",function(req,res){
     res.render("about");
 })
@@ -142,6 +153,5 @@ if (port == null || port == "") {
   port = 3000;
 }
 
-app.listen(process.env.PORT || 3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+app.listen(port, function(){ console.log("Server's Up");
 });

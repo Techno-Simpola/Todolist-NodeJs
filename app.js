@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const favicon = require('serve-favicon');
+const path = require('path');
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static("public"));
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 mongoose.connect("mongodb+srv://admin-simpola:admin-simpola@cluster0.taysu.mongodb.net/todolistDB",{useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -134,15 +136,16 @@ app.get("/:customListName",function(req,res){
 });
 
 
-function ignoreFavicon(req, res, next) {
-  if (req.originalUrl.includes('favicon.ico')) {
-    res.status(204).end()
+app.use( function(req, res, next) {
+
+  if (req.originalUrl && req.originalUrl.split("/").pop() === 'favicon.ico') {
+    return res.sendStatus(204);
+
   }
-  next();
-}
 
-app.use(ignoreFavicon);
+  return next();
 
+});
 
 app.get("/about",function(req,res){
     res.render("about");

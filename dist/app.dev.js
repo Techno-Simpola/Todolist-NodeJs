@@ -43,7 +43,7 @@ var listSchema = {
   items: [itemSchema]
 };
 var List = mongoose.model("List", listSchema);
-app.get("/", function (req, res) {
+app.get("*", function (req, res) {
   Item.find({}, function (err, results) {
     if (results.length === 0) {
       Item.insertMany(defaultItems, function (err) {
@@ -139,9 +139,6 @@ app.use(function (req, res, next) {
   }
 
   return next();
-});
-app.get("/about", function (req, res) {
-  res.render("about");
 });
 var port = process.env.PORT;
 

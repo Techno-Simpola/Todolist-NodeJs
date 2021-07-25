@@ -47,7 +47,7 @@ const listSchema = {
 const List = mongoose.model("List",listSchema);
 
 
-app.get("/",function(req, res){
+app.get("*",function(req, res){
 
   Item.find({},function(err,results){
 
@@ -147,9 +147,6 @@ app.use( function(req, res, next) {
 
 });
 
-app.get("/about",function(req,res){
-    res.render("about");
-})
 
 let port = process.env.PORT;
 if (port == null || port == "") {
